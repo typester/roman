@@ -15,6 +15,13 @@ Create `.roman.yml` on your project root, edit like following:
 ```yaml
 - name: go
   exec: docker run -it --rm -v $ROMAN_ROOT:/app -w /app/$ROMAN_REL -e GOPATH=/app golang go
+
+- name: node
+  exec: docker run -it --rm -v $ROMAN_ROOT:/app -w /app/$ROMAN_REL node node
+
+- name: webpack
+  exec: docker run -it --rm -v $ROMAN_ROOT:/app -w /app/$ROMAN_REL node /app/node_modules/.bin/webpack
+
 ```
 
 Then instead of typing above huge command lines, just type
