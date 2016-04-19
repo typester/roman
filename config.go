@@ -9,6 +9,11 @@ import (
 )
 
 type Config struct {
+	Path string
+	Cmds []*Cmd
+}
+
+type Cmd struct {
 	Name string `yaml:"name"`
 	Exec string `yaml:"exec"`
 }
@@ -18,7 +23,7 @@ var (
 	RootDir        = string(os.PathSeparator) // for testing
 )
 
-func LoadConfig() ([]*Config, error) {
+func LoadConfig() (*Config, error) {
 	cwd, err := os.Getwd()
 	if err != nil {
 		return nil, err
@@ -34,16 +39,24 @@ func LoadConfig() ([]*Config, error) {
 		return nil, err
 	}
 
-	return ParseConfig(data)
-}
-
-func ParseConfig(data []byte) ([]*Config, error) {
-	var configs []*Config
-	if err := yaml.Unmarshal(data, &configs); err != nil {
+	cmds, err := ParseConfig(data)
+	if err != nil {
 		return nil, err
 	}
 
-	return configs, nil
+	return &Config{
+		Path: file,
+		Cmds: cmds,
+	}, nil
+}
+
+func ParseConfig(data []byte) ([]*Cmd, error) {
+	var cmds []*Cmd
+	if err := yaml.Unmarshal(data, &cmds); err != nil {
+		return nil, err
+	}
+
+	return cmds, nil
 }
 
 func SearchConfig(dir string) (string, error) {

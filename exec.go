@@ -7,18 +7,18 @@ import (
 	"github.com/mattn/go-shellwords"
 )
 
-func ExecCommand(conf *Config, args []string) error {
+func ExecCommand(conf *Cmd, args []string) error {
 	p := shellwords.NewParser()
 	p.ParseEnv = true
 
-	cmds, err := p.Parse(conf.Exec)
+	shell, err := p.Parse(conf.Exec)
 	if err != nil {
 		return err
 	}
 
-	cmds = append(cmds, args...)
+	shell = append(shell, args...)
 
-	cmd := exec.Command(cmds[0], cmds[1:]...)
+	cmd := exec.Command(shell[0], shell[1:]...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

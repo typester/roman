@@ -4,11 +4,12 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"syscall"
 )
 
 func main() {
-	configs, err := LoadConfig()
+	conf, err := LoadConfig()
 	if err != nil {
 		log.Fatalf("Failed to load %s: %s\n", ConfigFileName, err.Error())
 	}
@@ -19,8 +20,11 @@ func main() {
 
 	cmd := os.Args[1]
 
-	for _, c := range configs {
+	for _, c := range conf.Cmds {
 		if c.Name == cmd {
+			os.Setenv("ROMAN_CONFIG", conf.Path)
+			os.Setenv("ROMAN_ROOT", filepath.Dir(conf.Path))
+
 			if err := ExecCommand(c, os.Args[2:]); err != nil {
 				if err, ok := err.(*exec.ExitError); ok {
 					if st, ok := err.ProcessState.Sys().(syscall.WaitStatus); ok {
