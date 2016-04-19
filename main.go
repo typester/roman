@@ -23,7 +23,18 @@ func main() {
 	for _, c := range conf.Cmds {
 		if c.Name == cmd {
 			os.Setenv("ROMAN_CONFIG", conf.Path)
-			os.Setenv("ROMAN_ROOT", filepath.Dir(conf.Path))
+
+			root := filepath.Dir(conf.Path)
+			cwd, err := os.Getwd()
+			if err != nil {
+				log.Fatalf("Failed to get cwd: %s\n", err.Error())
+			}
+			rel, err := filepath.Rel(root, cwd)
+			if err != nil {
+				log.Fatalf("Failed to find cwd as relative path for ROMAN_ROOT: %s\n", err.Error())
+			}
+			os.Setenv("ROMAN_ROOT", root)
+			os.Setenv("ROMAN_REL", rel)
 
 			if err := ExecCommand(c, os.Args[2:]); err != nil {
 				if err, ok := err.(*exec.ExitError); ok {
