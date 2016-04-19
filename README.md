@@ -1,5 +1,7 @@
 # Roman - Project specific command alias
 
+[![wercker status](https://app.wercker.com/status/47a5eed5bc0213bf862e2355e61248b9/s/master "wercker status")](https://app.wercker.com/project/bykey/47a5eed5bc0213bf862e2355e61248b9)
+
 > When in Rome, do as the Romans do.
 
 ## Install
