@@ -63,6 +63,7 @@ These are usable in `.roman.yml`
 
 ## TODO
 
+- [ ] binary release, homebrew
 - [ ] more options, dry-run etc
 - [ ] exec tests
 
