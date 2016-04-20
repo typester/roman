@@ -19,7 +19,7 @@ build:
         code: |
           go test ./...
 
-release-build:
+deploy:
   box: tcnksm/gox
 
   steps:
